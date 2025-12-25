@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xml xmlns="https://developers.google.com/blockly/xml">
 
-  <!-- VARIABLES -->
   <variables>
     <variable id="tick_count">tick_count</variable>
     <variable id="found_4_or_5">found_4_or_5</variable>
     <variable id="last_digit">last_digit</variable>
   </variables>
 
-  <!-- START BLOCK -->
-  <block type="trade" x="50" y="50">
+  <block type="trade" x="40" y="40">
     <statement name="SUBMARKET">
       <block type="submarket">
         <field name="SUBMARKET">synthetic_index</field>
@@ -20,7 +18,6 @@
               <block type="symbol">
                 <field name="SYMBOL">R_10</field>
 
-                <!-- RESET VARIABLES -->
                 <next>
                   <block type="variables_set">
                     <field name="VAR" id="tick_count">tick_count</field>
@@ -29,6 +26,7 @@
                         <field name="NUM">0</field>
                       </block>
                     </value>
+
                     <next>
                       <block type="variables_set">
                         <field name="VAR" id="found_4_or_5">found_4_or_5</field>
@@ -38,23 +36,22 @@
                           </block>
                         </value>
 
-                        <!-- ON TICK -->
                         <next>
-                          <block type="tick_analysis">
-                            <statement name="TICKANALYSIS">
+                          <block type="on_tick">
+                            <statement name="TICK">
 
-                              <!-- GET LAST DIGIT -->
+                              <!-- last digit -->
                               <block type="variables_set">
                                 <field name="VAR" id="last_digit">last_digit</field>
                                 <value name="VALUE">
                                   <block type="math_last_digit">
                                     <value name="NUM">
-                                      <block type="tick_quote"></block>
+                                      <block type="tick_quote"/>
                                     </value>
                                   </block>
                                 </value>
 
-                                <!-- INCREMENT COUNT -->
+                                <!-- tick_count + 1 -->
                                 <next>
                                   <block type="variables_set">
                                     <field name="VAR" id="tick_count">tick_count</field>
@@ -74,7 +71,7 @@
                                       </block>
                                     </value>
 
-                                    <!-- CHECK FOR 4 OR 5 -->
+                                    <!-- check 4 or 5 -->
                                     <next>
                                       <block type="controls_if">
                                         <value name="IF0">
@@ -111,6 +108,7 @@
                                             </value>
                                           </block>
                                         </value>
+
                                         <statement name="DO0">
                                           <block type="variables_set">
                                             <field name="VAR" id="found_4_or_5">found_4_or_5</field>
@@ -122,7 +120,7 @@
                                           </block>
                                         </statement>
 
-                                        <!-- IF 10 TICKS -->
+                                        <!-- when tick_count = 10 -->
                                         <next>
                                           <block type="controls_if">
                                             <value name="IF0">
@@ -141,7 +139,6 @@
                                               </block>
                                             </value>
 
-                                            <!-- IF CONDITION MET -->
                                             <statement name="DO0">
                                               <block type="controls_if">
                                                 <value name="IF0">
@@ -154,7 +151,6 @@
                                                   </block>
                                                 </value>
 
-                                                <!-- BUY DIGIT OVER 4 -->
                                                 <statement name="DO0">
                                                   <block type="trade_definition">
                                                     <field name="CONTRACT_TYPE">DIGITOVER</field>
@@ -166,7 +162,6 @@
                                                   </block>
                                                 </statement>
 
-                                                <!-- RESET -->
                                                 <next>
                                                   <block type="variables_set">
                                                     <field name="VAR" id="tick_count">tick_count</field>
