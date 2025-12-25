@@ -1,0 +1,197 @@
+<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+  <variables>
+    <variable id="ticks_to_check">ticks_to_check</variable>
+    <variable id="digit_found">digit_found</variable>
+    <variable id="i">i</variable>
+  </variables>
+  <block type="trade_definition" id="kNx+$~ATud7;qNes#|j2" deletable="false" x="0" y="0">
+    <statement name="TRADE_OPTIONS">
+      <block type="trade_definition_market" id="2S|;:U:vE_KRk/Tw%f,B" deletable="false" movable="false">
+        <field name="MARKET_LIST">synthetic_index</field>
+        <field name="SUBMARKET_LIST">random_index</field>
+        <field name="SYMBOL_LIST">1HZ10V</field>
+        <next>
+          <block type="trade_definition_tradetype" id="(V(wA:T30#M#(ip`Ua=S" deletable="false" movable="false">
+            <field name="TRADETYPECAT_LIST">digits</field>
+            <field name="TRADETYPE_LIST">digits</field>
+            <next>
+              <block type="trade_definition_contracttype" id="7i-tGW3:ZOZKk[W4aF#i" deletable="false" movable="false">
+                <field name="TYPE_LIST">differsdigit</field>
+                <next>
+                  <block type="trade_definition_candleinterval" id="t~sd]Ng^vP~N^VyveNUl" deletable="false" movable="false">
+                    <field name="CANDLEINTERVAL_LIST">60</field>
+                    <next>
+                      <block type="trade_definition_restartbuysell" id="StrnOtlNLahtRJg_S(Ig" deletable="false" movable="false">
+                        <field name="TIME_MACHINE_ENABLED">FALSE</field>
+                        <next>
+                          <block type="trade_definition_restartonerror" id="Ztm!Bo33C:8spLmEXm)v" deletable="false" movable="false">
+                            <field name="RESTARTONERROR">TRUE</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <statement name="SUBMARKET">
+      <block type="trade_definition_tradeoptions" id="LE$UzCsL/3V|(-3geI4@">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" has_first_barrier="false" has_second_barrier="false" has_prediction="true"></mutation>
+        <field name="DURATIONTYPE_LIST">t</field>
+        <value name="DURATION">
+          <shadow type="math_number_positive" id="3g[FuN!l{=(pYz9(|IW_">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="AMOUNT">
+          <shadow type="math_number_positive" id="oF$6S{AI[Ig9`amc)GCS">
+            <field name="NUM">0.35</field>
+          </shadow>
+        </value>
+        <value name="PREDICTION">
+          <shadow type="math_number" id="pred_shadow">
+            <field name="NUM">4</field>
+          </shadow>
+        </value>
+      </block>
+    </statement>
+  </block>
+  <block type="before_purchase" id="A^5orTfCRj)]4YzPIChM" deletable="false" x="0" y="400">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="variables_set" id="set_ticks_var">
+        <field name="VAR" id="ticks_to_check">ticks_to_check</field>
+        <value name="VALUE">
+          <block type="math_number" id="ticks_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set" id="set_digit_found">
+            <field name="VAR" id="digit_found">digit_found</field>
+            <value name="VALUE">
+              <block type="logic_boolean" id="init_false">
+                <field name="BOOL">FALSE</field>
+              </block>
+            </value>
+            <next>
+              <block type="controls_for" id="for_loop">
+                <field name="VAR" id="i">i</field>
+                <value name="FROM">
+                  <shadow type="math_number" id="from_1">
+                    <field name="NUM">1</field>
+                  </shadow>
+                </value>
+                <value name="TO">
+                  <shadow type="math_number" id="to_var">
+                    <field name="NUM">10</field>
+                  </shadow>
+                  <block type="variables_get" id="get_ticks_var">
+                    <field name="VAR" id="ticks_to_check">ticks_to_check</field>
+                  </block>
+                </value>
+                <value name="BY">
+                  <shadow type="math_number" id="by_1">
+                    <field name="NUM">1</field>
+                  </shadow>
+                </value>
+                <statement name="DO">
+                  <block type="controls_if" id="check_digit_4_or_5">
+                    <value name="IF0">
+                      <block type="logic_operation" id="or_operation">
+                        <field name="OP">OR</field>
+                        <value name="A">
+                          <block type="logic_compare" id="compare_digit_4">
+                            <field name="OP">EQ</field>
+                            <value name="A">
+                              <block type="read_details" id="read_last_digit">
+                                <field name="DETAIL_LIST">last_digit</field>
+                                <value name="CANDLE_INDEX">
+                                  <shadow type="math_number" id="candle_idx">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                  <block type="variables_get" id="get_i_var">
+                                    <field name="VAR" id="i">i</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number" id="num_4">
+                                <field name="NUM">4</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="logic_compare" id="compare_digit_5">
+                            <field name="OP">EQ</field>
+                            <value name="A">
+                              <block type="read_details" id="read_last_digit_2">
+                                <field name="DETAIL_LIST">last_digit</field>
+                                <value name="CANDLE_INDEX">
+                                  <shadow type="math_number" id="candle_idx_2">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                  <block type="variables_get" id="get_i_var_2">
+                                    <field name="VAR" id="i">i</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number" id="num_5">
+                                <field name="NUM">5</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="variables_set" id="set_digit_found_true">
+                        <field name="VAR" id="digit_found">digit_found</field>
+                        <value name="VALUE">
+                          <block type="logic_boolean" id="set_true">
+                            <field name="BOOL">TRUE</field>
+                          </block>
+                        </value>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+                <next>
+                  <block type="controls_if" id="final_check">
+                    <mutation else="1"></mutation>
+                    <value name="IF0">
+                      <block type="logic_negate" id="negate_digit_found">
+                        <value name="BOOL">
+                          <block type="variables_get" id="get_digit_found">
+                            <field name="VAR" id="digit_found">digit_found</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="purchase" id="purchase_differs">
+                        <field name="PURCHASE_LIST">DIGITDIFF</field>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="after_purchase" id="lm}_y*WHtZ#Ee9!et+Q$" x="0" y="800">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="trade_again" id="J9+7X^_$:-FT|.28cJJl"></block>
+    </statement>
+  </block>
+</xml>
