@@ -3,6 +3,7 @@
     <variable id="ticks_to_check">ticks_to_check</variable>
     <variable id="digit_found">digit_found</variable>
     <variable id="i">i</variable>
+    <variable id="last_digit_value">last_digit_value</variable>
   </variables>
   <block type="trade_definition" id="kNx+$~ATud7;qNes#|j2" deletable="false" x="0" y="0">
     <statement name="TRADE_OPTIONS">
@@ -16,7 +17,7 @@
             <field name="TRADETYPE_LIST">digits</field>
             <next>
               <block type="trade_definition_contracttype" id="7i-tGW3:ZOZKk[W4aF#i" deletable="false" movable="false">
-                <field name="TYPE_LIST">differsdigit</field>
+                <field name="TYPE_LIST">digitover</field>
                 <next>
                   <block type="trade_definition_candleinterval" id="t~sd]Ng^vP~N^VyveNUl" deletable="false" movable="false">
                     <field name="CANDLEINTERVAL_LIST">60</field>
@@ -70,126 +71,167 @@
           </block>
         </value>
         <next>
-          <block type="variables_set" id="set_digit_found">
-            <field name="VAR" id="digit_found">digit_found</field>
-            <value name="VALUE">
-              <block type="logic_boolean" id="init_false">
-                <field name="BOOL">FALSE</field>
-              </block>
-            </value>
-            <next>
-              <block type="controls_for" id="for_loop">
-                <field name="VAR" id="i">i</field>
-                <value name="FROM">
-                  <shadow type="math_number" id="from_1">
-                    <field name="NUM">1</field>
-                  </shadow>
+          <block type="controls_if" id="check_tick_list_length">
+            <value name="IF0">
+              <block type="logic_compare" id="compare_list_length">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="lists_length" id="get_tick_list_length">
+                    <value name="VALUE">
+                      <block type="tick_analysis" id="get_tick_list">
+                        <field name="TICKANALYSIS_LIST">ticks</field>
+                      </block>
+                    </value>
+                  </block>
                 </value>
-                <value name="TO">
-                  <shadow type="math_number" id="to_var">
-                    <field name="NUM">10</field>
-                  </shadow>
-                  <block type="variables_get" id="get_ticks_var">
+                <value name="B">
+                  <block type="variables_get" id="get_ticks_var_compare">
                     <field name="VAR" id="ticks_to_check">ticks_to_check</field>
                   </block>
                 </value>
-                <value name="BY">
-                  <shadow type="math_number" id="by_1">
-                    <field name="NUM">1</field>
-                  </shadow>
-                </value>
-                <statement name="DO">
-                  <block type="controls_if" id="check_digit_4_or_5">
-                    <value name="IF0">
-                      <block type="logic_operation" id="or_operation">
-                        <field name="OP">OR</field>
-                        <value name="A">
-                          <block type="logic_compare" id="compare_digit_4">
-                            <field name="OP">EQ</field>
-                            <value name="A">
-                              <block type="read_details" id="read_last_digit">
-                                <field name="DETAIL_LIST">last_digit</field>
-                                <value name="CANDLE_INDEX">
-                                  <shadow type="math_number" id="candle_idx">
-                                    <field name="NUM">1</field>
-                                  </shadow>
-                                  <block type="variables_get" id="get_i_var">
-                                    <field name="VAR" id="i">i</field>
-                                  </block>
-                                </value>
-                              </block>
-                            </value>
-                            <value name="B">
-                              <block type="math_number" id="num_4">
-                                <field name="NUM">4</field>
-                              </block>
-                            </value>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="logic_compare" id="compare_digit_5">
-                            <field name="OP">EQ</field>
-                            <value name="A">
-                              <block type="read_details" id="read_last_digit_2">
-                                <field name="DETAIL_LIST">last_digit</field>
-                                <value name="CANDLE_INDEX">
-                                  <shadow type="math_number" id="candle_idx_2">
-                                    <field name="NUM">1</field>
-                                  </shadow>
-                                  <block type="variables_get" id="get_i_var_2">
-                                    <field name="VAR" id="i">i</field>
-                                  </block>
-                                </value>
-                              </block>
-                            </value>
-                            <value name="B">
-                              <block type="math_number" id="num_5">
-                                <field name="NUM">5</field>
-                              </block>
-                            </value>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO0">
-                      <block type="variables_set" id="set_digit_found_true">
-                        <field name="VAR" id="digit_found">digit_found</field>
-                        <value name="VALUE">
-                          <block type="logic_boolean" id="set_true">
-                            <field name="BOOL">TRUE</field>
-                          </block>
-                        </value>
-                      </block>
-                    </statement>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="variables_set" id="set_digit_found">
+                <field name="VAR" id="digit_found">digit_found</field>
+                <value name="VALUE">
+                  <block type="logic_boolean" id="init_false">
+                    <field name="BOOL">FALSE</field>
                   </block>
-                </statement>
+                </value>
                 <next>
-                  <block type="controls_if" id="final_check">
-                    <mutation else="1"></mutation>
-                    <value name="IF0">
-                      <block type="logic_negate" id="negate_digit_found">
-                        <value name="BOOL">
-                          <block type="variables_get" id="get_digit_found">
-                            <field name="VAR" id="digit_found">digit_found</field>
-                          </block>
-                        </value>
+                  <block type="controls_for" id="for_loop">
+                    <field name="VAR" id="i">i</field>
+                    <value name="FROM">
+                      <shadow type="math_number" id="from_1">
+                        <field name="NUM">1</field>
+                      </shadow>
+                    </value>
+                    <value name="TO">
+                      <shadow type="math_number" id="to_var">
+                        <field name="NUM">10</field>
+                      </shadow>
+                      <block type="variables_get" id="get_ticks_var">
+                        <field name="VAR" id="ticks_to_check">ticks_to_check</field>
                       </block>
                     </value>
-                    <statement name="DO0">
-                      <block type="purchase" id="purchase_differs">
-                        <field name="PURCHASE_LIST">DIGITDIFF</field>
+                    <value name="BY">
+                      <shadow type="math_number" id="by_1">
+                        <field name="NUM">1</field>
+                      </shadow>
+                    </value>
+                    <statement name="DO">
+                      <block type="variables_set" id="set_last_digit">
+                        <field name="VAR" id="last_digit_value">last_digit_value</field>
+                        <value name="VALUE">
+                          <block type="math_modulo" id="modulo_operation">
+                            <value name="DIVIDEND">
+                              <shadow type="math_number" id="dividend_shadow">
+                                <field name="NUM">64</field>
+                              </shadow>
+                              <block type="lists_getIndex" id="get_tick_from_list">
+                                <mutation statement="false" at="true"></mutation>
+                                <field name="MODE">GET</field>
+                                <field name="WHERE">FROM_START</field>
+                                <value name="VALUE">
+                                  <block type="tick_analysis" id="get_tick_list_2">
+                                    <field name="TICKANALYSIS_LIST">ticks</field>
+                                  </block>
+                                </value>
+                                <value name="AT">
+                                  <block type="variables_get" id="get_i_index">
+                                    <field name="VAR" id="i">i</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="DIVISOR">
+                              <shadow type="math_number" id="divisor_10">
+                                <field name="NUM">10</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_if" id="check_digit_4_or_5">
+                            <value name="IF0">
+                              <block type="logic_operation" id="or_operation">
+                                <field name="OP">OR</field>
+                                <value name="A">
+                                  <block type="logic_compare" id="compare_digit_4">
+                                    <field name="OP">EQ</field>
+                                    <value name="A">
+                                      <block type="variables_get" id="get_last_digit_val">
+                                        <field name="VAR" id="last_digit_value">last_digit_value</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number" id="num_4">
+                                        <field name="NUM">4</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="logic_compare" id="compare_digit_5">
+                                    <field name="OP">EQ</field>
+                                    <value name="A">
+                                      <block type="variables_get" id="get_last_digit_val_2">
+                                        <field name="VAR" id="last_digit_value">last_digit_value</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number" id="num_5">
+                                        <field name="NUM">5</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="variables_set" id="set_digit_found_true">
+                                <field name="VAR" id="digit_found">digit_found</field>
+                                <value name="VALUE">
+                                  <block type="logic_boolean" id="set_true">
+                                    <field name="BOOL">TRUE</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
                       </block>
                     </statement>
+                    <next>
+                      <block type="controls_if" id="final_check">
+                        <mutation else="1"></mutation>
+                        <value name="IF0">
+                          <block type="logic_negate" id="negate_digit_found">
+                            <value name="BOOL">
+                              <block type="variables_get" id="get_digit_found">
+                                <field name="VAR" id="digit_found">digit_found</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="purchase" id="purchase_differs">
+                            <field name="PURCHASE_LIST">DIGITOVER</field>
+                          </block>
+                        </statement>
+                      </block>
+                    </next>
                   </block>
                 </next>
               </block>
-            </next>
+            </statement>
           </block>
         </next>
       </block>
     </statement>
   </block>
-  <block type="after_purchase" id="lm}_y*WHtZ#Ee9!et+Q$" x="0" y="800">
+  <block type="after_purchase" id="lm}_y*WHtZ#Ee9!et+Q$" x="0" y="900">
     <statement name="AFTERPURCHASE_STACK">
       <block type="trade_again" id="J9+7X^_$:-FT|.28cJJl"></block>
     </statement>
